@@ -58,7 +58,8 @@ export default {
                 }
             ],
             level: 'easy',
-            isUserTurn: false
+            isUserTurn: false,
+            steps: []
         }
     },
 
@@ -77,9 +78,23 @@ export default {
                 console.log(respone);
                 this.boardStatus = respone.board
                 this.repaintBoard();
-                this.isUserTurn = true
+                this.isUserTurn = true;
+                let deepCopy = this.deepClone(this.boardStatus)
+                this.steps.push(deepCopy)
                 if (respone.ended) {
                     this.isUserTurn = false;
+                    // send request to record board steps
+                    let data = {
+                        token: window.sessionStorage.getItem('token'),
+                        username: window.sessionStorage.getItem('username'),
+                        level: this.level,
+                        player: this.chess,
+                        winner: respone.winner ? respone.winner : 't',
+                        steps: this.steps
+                    }
+                    console.log(data);
+                    const res = await this.$http.post('board/record', data);
+                    console.log(res);
                     if (respone.winner === this.chess) {
                         this.$message.success('You win!')
                     }
@@ -122,6 +137,7 @@ export default {
                 const {data: respone} = await this.$http.post('board/next', data)
                 console.log(respone);
                 this.boardStatus = respone.board
+                this.steps.push(this.deepClone(this.boardStatus))
                 this.repaintBoard()
                 this.isUserTurn = true
             }
@@ -141,6 +157,9 @@ export default {
             this.$refs['level'].disabled = false
             this.goFirst = 'initiative'
             this.$refs['board'].style.display = 'none'
+        },
+        deepClone(arr) {
+            return JSON.parse(JSON.stringify(arr))
         }
     }
 }
@@ -153,7 +172,7 @@ export default {
         background-color: green;
         position: absolute;
         left: 50%;
-        top: 50%;
+        top: 65%;
         margin-left: -250px;
         margin-top: -250px;
         grid-template-columns: repeat(3,1fr);
