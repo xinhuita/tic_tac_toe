@@ -39,23 +39,23 @@ export default {
                     //验证用户名是否合法
                     username: [{
                         required: true,
-                        message: '请输入登陆名称',
+                        message: 'pleause input your username',
                         trigger: 'blur'
                     }, {
                         min: 3,
                         max: 10,
-                        message: '长度在 3 到 10 个字符',
+                        message: 'length should be 3-10',
                         trigger: 'blur'
                     }],
                     //验证密码是否合法
                     password: [{
                         required: true,
-                        message: '请输入登陆密码',
+                        message: 'please input your password',
                         trigger: 'blur'
                     }, {
                         min: 6,
                         max: 15,
-                        message: '长度在 6 到 15 个字符',
+                        message: 'length should be 6-15',
                         trigger: 'blur'
                     }]
                 }
@@ -74,7 +74,7 @@ export default {
                 }
                 const response = await this.$http.post('account/signup', this.signupForm)
                 console.log(response);
-                this.$router.push('/login')
+                this.$router.push('/login').catch(()=> {})
             })
         },
         goLogin() {

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { Form, FormItem, Button, Input, Container, Header, Aside, Main, Menu, Submenu, MenuItem, Breadcrumb, BreadcrumbItem, Card, Row, Col, Table, TableColumn, Switch, Tooltip, Pagination, Dialog, MessageBox } from 'element-ui'
 //导入弹窗提示组件
-import { Message, Tag, Tree, Select, Option, Cascader, Alert, Tabs, TabPane, Steps, Step, CheckboxGroup, Checkbox, Upload, Radio } from 'element-ui'
-
+import { Message, Tag, Tree, Select, Option, Cascader, Alert, Tabs, TabPane, Steps, Step, CheckboxGroup, Checkbox, Upload, Radio , ButtonGroup} from 'element-ui'
+Vue.use(ButtonGroup)
 Vue.use(Radio)
 Vue.use(Button)
 Vue.use(Form)

@@ -23,14 +23,14 @@ export default {
 
     methods: {
         goPlay() {
-            this.$router.push('/play')
+            this.$router.push('/play').catch(()=> {})
         },
         viewHistory() {
-            this.$router.push('/history')
+            this.$router.push('/history').catch(()=> {})
         },
         logOut() {
             window.sessionStorage.clear()
-            this.$router.push('/login')
+            this.$router.push('/login').catch(()=> {})
         }
     }
 }

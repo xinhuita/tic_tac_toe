@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div ref="board" class="board_container">
+        <div ref="board" class="board_container" style="display:none">
             <div class="col" ref="grid-0-0" @click="placeChess(0,0)"></div>
             <div class="col" ref="grid-0-1" @click="placeChess(0,1)"></div>
             <div class="col" ref="grid-0-2" @click="placeChess(0,2)"></div>
@@ -74,14 +74,15 @@ export default {
                     player: this.goFirst === 'gote' ? 'o' : 'x',
                     board: this.boardStatus
                 }
+                this.steps.push(this.deepClone(this.boardStatus))
                 const {data: respone} = await this.$http.post('board/next', data);
                 console.log(respone);
                 this.boardStatus = respone.board
                 this.repaintBoard();
-                this.isUserTurn = true;
-                let deepCopy = this.deepClone(this.boardStatus)
-                this.steps.push(deepCopy)
                 if (respone.ended) {
+                    if (respone.winner !== this.chess && this.steps.length < 9) {
+                        this.steps.push(this.deepClone(this.boardStatus));
+                    }
                     this.isUserTurn = false;
                     // send request to record board steps
                     let data = {
@@ -92,7 +93,7 @@ export default {
                         winner: respone.winner ? respone.winner : 't',
                         steps: this.steps
                     }
-                    console.log(data);
+                    console.log(data.steps);
                     const res = await this.$http.post('board/record', data);
                     console.log(res);
                     if (respone.winner === this.chess) {
@@ -105,6 +106,11 @@ export default {
                         this.$message.error('You lose')
                     }
                 }
+                else {
+                    this.isUserTurn = true;
+                    this.steps.push(this.deepClone(this.boardStatus))
+                }
+                
             }
         },
         repaintBoard() {
@@ -138,6 +144,7 @@ export default {
                 console.log(respone);
                 this.boardStatus = respone.board
                 this.steps.push(this.deepClone(this.boardStatus))
+                console.log(this.steps);
                 this.repaintBoard()
                 this.isUserTurn = true
             }

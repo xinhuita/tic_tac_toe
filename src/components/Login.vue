@@ -41,23 +41,23 @@
                     //验证用户名是否合法
                     username: [{
                         required: true,
-                        message: '请输入登陆名称',
+                        message: 'pleause input your username',
                         trigger: 'blur'
                     }, {
                         min: 3,
                         max: 10,
-                        message: '长度在 3 到 10 个字符',
+                        message: 'length should be 3-10',
                         trigger: 'blur'
                     }],
                     //验证密码是否合法
                     password: [{
                         required: true,
-                        message: '请输入登陆密码',
+                        message: 'please input your password',
                         trigger: 'blur'
                     }, {
                         min: 6,
                         max: 15,
-                        message: '长度在 6 到 15 个字符',
+                        message: 'length should be 6-15',
                         trigger: 'blur'
                     }]
                 }
@@ -85,7 +85,7 @@
                         window.sessionStorage.setItem('token', data.token)
                         window.sessionStorage.setItem('username', this.loginForm.username)
                         this.$message.success('log in success')
-                        this.$router.push('/board')
+                        this.$router.push('/board').catch(()=> {})
                     }
                     else {
                         this.$message.error('wrong username or password')
@@ -93,7 +93,7 @@
                 })
             },
             goSignup() {
-                this.$router.push('/signup')
+                this.$router.push('/signup').catch(()=> {})
             }
         }
     }
