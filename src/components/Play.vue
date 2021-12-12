@@ -10,7 +10,7 @@
                 </el-select>
             </div>
             <div class="playBtn">
-                <el-button type="primary" @click="goPlay">Play now!</el-button>
+                <el-button ref="play" type="primary" @click="goPlay">Play now!</el-button>
                 <el-button type="warning" @click="reset">reset</el-button>
             </div>
         </div>
@@ -131,6 +131,7 @@ export default {
             this.$refs['radio1'].disabled = true
             this.$refs['radio2'].disabled = true
             this.$refs['level'].disabled = true
+            this.$refs['play'].disabled = true
             this.chess = this.goFirst === 'initiative' ? 'x' : 'o'
             if (this.goFirst === 'gote') {
                 this.isUserTurn = false;
@@ -162,8 +163,10 @@ export default {
             this.$refs['radio1'].disabled = false
             this.$refs['radio2'].disabled = false
             this.$refs['level'].disabled = false
+            this.$refs['play'].disabled = false
             this.goFirst = 'initiative'
             this.$refs['board'].style.display = 'none'
+            this.steps = []
         },
         deepClone(arr) {
             return JSON.parse(JSON.stringify(arr))
