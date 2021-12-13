@@ -2,8 +2,8 @@
     <div class="container">
         <div ref="detail_board" class="detail_board">
             <el-button-group class="btn_control">
-                <el-button ref="btn_1" type="primary" icon="el-icon-arrow-left" @click="last_step" disabled>上一步</el-button>
-                <el-button ref="btn_2" type="primary" @click="next_step">下一步<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+                <el-button ref="btn_1" type="primary" icon="el-icon-arrow-left" @click="last_step" :disabled="btn_1">last step</el-button>
+                <el-button ref="btn_2" type="primary" @click="next_step" :disabled="btn_2">next step<i class="el-icon-arrow-right el-icon--right"></i></el-button>
                 <i class="el-icon-close" @click="closeBoard"></i>
             </el-button-group>
             <div ref="your_role" class="role">Your Chess: {{your_role}}</div>
@@ -66,130 +66,9 @@ export default {
             your_role: '',
             ai_role: '',
             tableData: [
-                {
-                    id: 1,
-                    level: 'easy',
-                    player: 'x',
-                    winner: 'x',
-                    timestamp: '2021-12-01',
-                    steps:[
-                            [
-                                ['_','x','_'],
-                                ['_','_','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','_','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','o'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','o'],
-                                ['x','_','_']
-                            ],
-                        ]
-                },
-                {
-                    id: 2,
-                    level: 'medium',
-                    player: 'x',
-                    winner: 'y',
-                    timestamp: '2021-12-02',
-                    steps:[
-                            [
-                                ['_','x','_'],
-                                ['_','_','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','_','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','o'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','o'],
-                                ['x','_','_']
-                            ],
-                        ]
-                },
-                {
-                    id: 3,
-                    level: 'hard',
-                    player: 'x',
-                    winner: 't',
-                    timestamp: '2021-12-03',
-                    steps:[
-                            [
-                                ['_','x','_'],
-                                ['_','_','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','_','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','_'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','o'],
-                                ['_','_','_']
-                            ],
-                            [
-                                ['_','x','_'],
-                                ['o','x','o'],
-                                ['x','_','_']
-                            ],
-                        ]
-                },
-                {
-                    id: 4,
-                    level: 'hard',
-                    player: 'o',
-                    winner: 'x',
-                    timestamp: '2021-12-04'
-                },
-                {
-                    id: 3,
-                    level: 'hard',
-                    player: 'x',
-                    winner: 't',
-                    timestamp: '2021-12-03'
-                },
-                {
-                    id: 4,
-                    level: 'hard',
-                    player: 'o',
-                    winner: 'x',
-                    timestamp: '2021-12-04'
-                }
-            ]
+            ],
+            btn_1: true,
+            btn_2: false
         }
     },
     async created() {
@@ -213,15 +92,15 @@ export default {
                 token: window.sessionStorage.getItem('token')
             }
             const {data: response} = await this.$http.get(`board/record?username=${data.username}&token=${data.token}`);
-            console.log(response);
+            // console.log(response);
             this.tableData = response.matches;
         },
         seeDetail(row, col, cell, event) {
-            this.$refs['btn_1'].disabled = true;
-            this.$refs['btn_2'].disabled = false
+            this.btn_1 = true;
+            this.btn_2 = false
             this.checkBtnStatus();
             let steps = row.steps;
-            console.log(steps);
+            // console.log(steps);
             this.your_role = row.player;
             this.ai_role = row.player === 'x' ? 'o' : 'x';
             this.curStep = 1;
@@ -269,14 +148,14 @@ export default {
         },
         checkBtnStatus() {
             if (this.curStep <= 1) {
-                this.$refs['btn_1'].disabled = true
+                this.btn_1 = true
             }
             else if (this.curStep >= this.curGame.length) {
-                this.$refs['btn_2'].disabled = true
+                this.btn_2 = true
             }
             else {
-                this.$refs['btn_1'].disabled = false
-                this.$refs['btn_2'].disabled = false
+                this.btn_1 = false
+                this.btn_2 = false
             }
         }
     }
@@ -297,7 +176,7 @@ export default {
         background: #FFC0CB;
   }
     .detail_board {
-        width: 240px;
+        width: 280px;
         margin: 0 auto;
         display: none;
     }
@@ -313,7 +192,7 @@ export default {
         left: 50%;
         top: 45%;
         margin-left: -250px;
-        margin-top: -250px;
+        margin-top: -180px;
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: repeat(3, 1fr);
         grid-gap: 1px;

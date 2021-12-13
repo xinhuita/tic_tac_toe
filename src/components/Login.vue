@@ -1,22 +1,17 @@
 <template>
     <div class='login_container'>
         <div class="login_box">
-            <!-- 头像区域 -->
             <div class='header'>
                 <img class='icon_img' src="../assets/Tic_tac_toe.svg.png" alt="">
                 <div class='title'>Welcome to tic tac toe</div>
             </div>
-            <!-- 登陆表单区域 -->
             <el-form ref='loginFormRef' label-width="0px" class='login_form' :model='loginForm' :rules='loginFormRules'>
-                <!-- 用户名 -->
                 <el-form-item prop="username">
                   <el-input prefix-icon="iconfont icon-user" v-model='loginForm.username'></el-input>
                 </el-form-item>
-                <!-- 密码 -->
                 <el-form-item prop='password'>
                     <el-input prefix-icon="iconfont icon-3702mima" v-model='loginForm.password' type='password'></el-input>
                 </el-form-item>
-                <!-- 按钮区域 -->
                 <el-form-item class='btns'>
                     <el-button class='signup' type="signup" @click='goSignup'>sign up</el-button>
                     <el-button type="info" @click='resetLoginForm'>reset</el-button>
@@ -31,14 +26,11 @@
     export default {
         data() {
             return {
-                //这是登陆表单的数据绑定对象
                 loginForm: {
                     username: '',
                     password: ''
                 },
-                //这是表单的验证规则对象
                 loginFormRules: {
-                    //验证用户名是否合法
                     username: [{
                         required: true,
                         message: 'pleause input your username',
@@ -49,7 +41,6 @@
                         message: 'length should be 3-10',
                         trigger: 'blur'
                     }],
-                    //验证密码是否合法
                     password: [{
                         required: true,
                         message: 'please input your password',
@@ -64,7 +55,6 @@
             }
         },
         methods: {
-            //点击重置按钮，重置登陆表单
             resetLoginForm() {
                 //console.log(this)
                 this.$refs.loginFormRef.resetFields();
@@ -75,12 +65,7 @@
                         return;
                     }
                     const {data} = await this.$http.post('account/login', this.loginForm);
-                    console.log('data： ', data);
-                    // this.$message.success('登陆成功！')
-                    //     // 1.将登陆成功之后的token,保存到客户端的sessionStorage
-                    //     // 1.1 项目中除了登陆以外的其他API接口，必须在登录以后才能访问
-                    //     // 1.2 token应只在当前网站打开期间生效，所以将token保存在sessionStorage中
-                    // window.sessionStorage.setItem('token', res.data.token);
+                    // console.log('data： ', data);
                     if (data.success) {
                         window.sessionStorage.setItem('token', data.token)
                         window.sessionStorage.setItem('username', this.loginForm.username)

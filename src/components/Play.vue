@@ -2,16 +2,16 @@
     <div class="container">
         <div class="control">
             <div class="goFirst">
-                <el-radio ref="radio1" v-model="goFirst" label="initiative">initiative</el-radio>
-                <el-radio ref="radio2" v-model="goFirst" label="gote">gote</el-radio>
-                <el-select ref="level" v-model="level">
+                <el-radio ref="radio1" v-model="goFirst" label="initiative" :disabled="radio1">initiative</el-radio>
+                <el-radio ref="radio2" v-model="goFirst" label="gote" :disabled="radio2">gote</el-radio>
+                <el-select ref="level" v-model="level" :disabled="levelbtn">
                     <el-option v-for="item in options" :key="item.label" :value="item.value">
                     </el-option>
                 </el-select>
             </div>
             <div class="playBtn">
-                <el-button ref="play" type="primary" @click="goPlay">Play now!</el-button>
-                <el-button type="warning" @click="reset">reset</el-button>
+                <el-button ref="play" type="primary" @click="goPlay" :disabled="playbtn">Play now!</el-button>
+                <el-button type="warning" @click="reset" :disabled="resetbtn">reset</el-button>
             </div>
         </div>
 
@@ -59,7 +59,12 @@ export default {
             ],
             level: 'easy',
             isUserTurn: false,
-            steps: []
+            steps: [],
+            radio1: false,
+            radio2: false,
+            levelbtn: false,
+            playbtn: false,
+            resetbtn: false
         }
     },
 
@@ -76,7 +81,7 @@ export default {
                 }
                 this.steps.push(this.deepClone(this.boardStatus))
                 const {data: respone} = await this.$http.post('board/next', data);
-                console.log(respone);
+                // console.log(respone);
                 this.boardStatus = respone.board
                 this.repaintBoard();
                 if (respone.ended) {
@@ -93,9 +98,9 @@ export default {
                         winner: respone.winner ? respone.winner : 't',
                         steps: this.steps
                     }
-                    console.log(data.steps);
+                    // console.log(data.steps);
                     const res = await this.$http.post('board/record', data);
-                    console.log(res);
+                    // console.log(res);
                     if (respone.winner === this.chess) {
                         this.$message.success('You win!')
                     }
@@ -128,10 +133,10 @@ export default {
         },
         async goPlay() {
             this.$refs['board'].style.display = 'grid'
-            this.$refs['radio1'].disabled = true
-            this.$refs['radio2'].disabled = true
-            this.$refs['level'].disabled = true
-            this.$refs['play'].disabled = true
+            this.radio1 = true
+            this.radio2 = true
+            this.levelbtn = true
+            this.playbtn = true
             this.chess = this.goFirst === 'initiative' ? 'x' : 'o'
             if (this.goFirst === 'gote') {
                 this.isUserTurn = false;
@@ -142,10 +147,10 @@ export default {
                     board: this.boardStatus
                 }
                 const {data: respone} = await this.$http.post('board/next', data)
-                console.log(respone);
+                // console.log(respone);
                 this.boardStatus = respone.board
                 this.steps.push(this.deepClone(this.boardStatus))
-                console.log(this.steps);
+                // console.log(this.steps);
                 this.repaintBoard()
                 this.isUserTurn = true
             }
@@ -160,10 +165,10 @@ export default {
                           ['_','_','_']
                         ];
             this.repaintBoard()
-            this.$refs['radio1'].disabled = false
-            this.$refs['radio2'].disabled = false
-            this.$refs['level'].disabled = false
-            this.$refs['play'].disabled = false
+            this.radio1= false
+            this.radio2 = false
+            this.levelbtn = false
+            this.playbtn = false
             this.goFirst = 'initiative'
             this.$refs['board'].style.display = 'none'
             this.steps = []
@@ -184,7 +189,7 @@ export default {
         left: 50%;
         top: 65%;
         margin-left: -250px;
-        margin-top: -250px;
+        margin-top: -180px;
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: repeat(3, 1fr);
         grid-gap: 1px;

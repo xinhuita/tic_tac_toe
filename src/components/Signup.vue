@@ -1,20 +1,16 @@
 <template>
     <div class='signup_container'> 
         <div class="signup_box">
-            <!-- 头像区域 -->
             <div class='header'>
                 <div class='title'>Please signup</div>
             </div>
             <el-form ref='signupFormRef' label-width="0px" class='signup_form' :model='signupForm' :rules='signupFormRules'>
-            <!-- 用户名 -->
             <el-form-item prop="username">
                 <el-input prefix-icon="iconfont icon-user" v-model='signupForm.username'></el-input>
             </el-form-item>
-            <!-- 密码 -->
             <el-form-item prop='password'>
                 <el-input prefix-icon="iconfont icon-3702mima" v-model='signupForm.password' type='password'></el-input>
             </el-form-item>
-            <!-- 按钮区域 -->
             <el-form-item class='btns'>
                 <el-button type="login" @click='goLogin'>log in</el-button>
                 <el-button type="info" @click='resetSignupForm'>reset</el-button>
@@ -34,9 +30,7 @@ export default {
                 username: '',
                 password: ''
             },
-            //这是表单的验证规则对象
                 signupFormRules: {
-                    //验证用户名是否合法
                     username: [{
                         required: true,
                         message: 'pleause input your username',
@@ -47,7 +41,6 @@ export default {
                         message: 'length should be 3-10',
                         trigger: 'blur'
                     }],
-                    //验证密码是否合法
                     password: [{
                         required: true,
                         message: 'please input your password',
@@ -73,12 +66,12 @@ export default {
                     alert('no valid name or password')
                 }
                 const response = await this.$http.post('account/signup', this.signupForm)
-                console.log(response);
+                // console.log(response);
                 this.$router.push('/login').catch(()=> {})
             })
         },
         goLogin() {
-            this.$router.push('/login')
+            this.$router.push('/login').catch(()=> {})
         }
     }
 }
