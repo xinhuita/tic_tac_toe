@@ -208,11 +208,6 @@ export default {
         width: 500px;
         height: 500px;
         background-color: green;
-        // position: absolute;
-        // left: 50%;
-        // top: 45%;
-        // margin-left: -250px;
-        // margin-top: -180px;
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: repeat(3, 1fr);
         grid-gap: 1px;
