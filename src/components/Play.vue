@@ -187,7 +187,7 @@ export default {
         background-color: green;
         position: absolute;
         left: 50%;
-        top: 65%;
+        top: 50%;
         margin-left: -250px;
         margin-top: -180px;
         grid-template-columns: repeat(3,1fr);
@@ -202,6 +202,11 @@ export default {
         text-align: center;
     }
 
+    .control {
+        position: absolute;
+        left: 50%;
+        margin-left: -200px;
+    }
     .goFirst {
         display: flex;
         justify-content: center;
