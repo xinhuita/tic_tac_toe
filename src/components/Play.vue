@@ -185,11 +185,6 @@ export default {
         width: 500px;
         height: 500px;
         background-color: green;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin-left: -250px;
-        margin-top: -180px;
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: repeat(3, 1fr);
         grid-gap: 1px;
@@ -202,21 +197,29 @@ export default {
         text-align: center;
     }
 
-    .control {
-        position: absolute;
-        left: 50%;
-        margin-left: -200px;
-    }
-    .goFirst {
+    .container {
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-wrap: wrap;
+        width: 600px;
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        margin-left: -300px;
+
+    }
+    .control {
+        margin-bottom: 10px;
+    }
+    .goFirst {
+        margin-bottom: 20px;
     }
 
     .playBtn {
+        margin-bottom: 20px;
         display: flex;
         justify-content: center;
-        margin-top: 50px;
     }
 
     .show {

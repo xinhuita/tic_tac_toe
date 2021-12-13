@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="history_container">
         <div ref="detail_board" class="detail_board">
             <el-button-group class="btn_control">
                 <el-button ref="btn_1" type="primary" icon="el-icon-arrow-left" @click="last_step" :disabled="btn_1">last step</el-button>
@@ -8,7 +8,7 @@
             </el-button-group>
             <div ref="your_role" class="role">Your Chess: {{your_role}}</div>
             <div ref="ai_role" class="role">AI's Chess: {{ai_role}}</div>
-            <div ref="board" class="board_container">
+            <div ref="board" class="board_container_history">
                 <div class="col" ref="grid-0-0"></div>
                 <div class="col" ref="grid-0-1"></div>
                 <div class="col" ref="grid-0-2"></div>
@@ -22,7 +22,7 @@
                 <div class="col" ref="grid-2-2"></div>
             </div>
         </div>
-        <div ref="table_container">
+        <div ref="table_container" class="table_container">
             <el-table :data="tableData" style="width: 100%; margin-left: 20px;" :row-class-name="tableRowClassName" @cell-click="seeDetail"> 
             <el-table-column
             prop="id"
@@ -106,7 +106,7 @@ export default {
             this.curStep = 1;
             this.curGame = steps;
             this.repaintBoard(steps[0]);
-            this.$refs['detail_board'].style.display = 'block';
+            this.$refs['detail_board'].style.display = 'flex';
             this.$refs['table_container'].style.opacity = 0.3;
             this.checkBtnStatus()
         },
@@ -176,23 +176,43 @@ export default {
         background: #FFC0CB;
   }
     .detail_board {
-        width: 280px;
-        margin: 0 auto;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 600px;
+        z-index: 2;
+        left: 50%;
+        margin-left: -300px;
         display: none;
+    }
+
+    .role {
+        flex-basis: 100%;
+        text-align: center;
+        margin-bottom: 20px;
     }
     .el-icon-close {
         margin-left: 20px;
     }
+    .history_container {
+        width: 100%;
+    }
 
-    .board_container {
+    .el-button-group {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    .board_container_history {
         width: 500px;
         height: 500px;
         background-color: green;
-        position: absolute;
-        left: 50%;
-        top: 45%;
-        margin-left: -250px;
-        margin-top: -180px;
+        // position: absolute;
+        // left: 50%;
+        // top: 45%;
+        // margin-left: -250px;
+        // margin-top: -180px;
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: repeat(3, 1fr);
         grid-gap: 1px;
@@ -204,6 +224,10 @@ export default {
         background-color: pink;
         font-size: 100px;
         text-align: center;
+    }
+
+    .table_container {
+        
     }
 
 </style>
